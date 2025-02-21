@@ -1,0 +1,6 @@
+@ATM_API.Web_HostAddress = http://localhost:5049
+
+GET {{ATM_API.Web_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

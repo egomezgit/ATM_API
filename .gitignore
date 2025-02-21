@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/ATM_API
+/src/ATM_API.Application/obj
+/src/ATM_API.Core/obj
+*.user
+/src/ATM_API.Infrastructure/obj
+/src/ATM_API.Tests/obj
+/src/ATM_API.Tests/bin/Debug/net8.0
+/src/ATM_API.Web/obj
