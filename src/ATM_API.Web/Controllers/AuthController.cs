@@ -1,29 +1,30 @@
-﻿namespace ATM_API.Web.Controllers
-{
-    // ATM_API.Web/Controllers/AuthController.cs
-[ApiController]
-[Route("api/[controller]")]
-public class AuthController : ControllerBase
-{
-    private readonly LoginUseCase _loginUseCase;
+﻿
+using Microsoft.AspNetCore.Mvc;
+using ATM_API.Application.Interfaces.Auth;
+using ATM_API.Application.DTOs.Auth;
 
-    public AuthController(LoginUseCase loginUseCase)
+namespace ATM_API.Web.Controllers
+{
+    [ApiController]
+    [Route("api/auth")]
+    public class AuthController : ControllerBase
     {
-        _loginUseCase = loginUseCase;
-    }
+        private readonly IAuthService _authService;
 
-    [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequest request)
-    {
-        try
+        public AuthController(IAuthService authService)
         {
-            var token = await _loginUseCase.Execute(request.CardNumber, request.Pin);
-            return Ok(new { Token = token });
+            _authService = authService;
         }
-        catch (UnauthorizedAccessException ex)
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto loginDto)
         {
-            return Unauthorized(ex.Message);
+            var response = await _authService.AuthenticateAsync(loginDto);
+            if (response == null)
+                return Unauthorized(new { message = "Invalid credentials or card is blocked." });
+
+            return Ok(response);
         }
     }
 }
-}
+

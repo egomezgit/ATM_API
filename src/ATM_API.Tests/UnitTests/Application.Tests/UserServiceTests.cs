@@ -1,8 +1,7 @@
 ﻿using Xunit;
 using Moq;
-using ATM_API.Core.Entities;
-using ATM_API.Core.Interfaces;
 using ATM_API.Core.Services;
+using ATM_API.Application.Interfaces;
 
 namespace ATM_API.Tests.UnitTests.Application.Tests
 {

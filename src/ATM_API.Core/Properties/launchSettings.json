@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ATM_API.Core": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

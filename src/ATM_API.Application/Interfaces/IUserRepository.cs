@@ -1,6 +1,6 @@
 ﻿using ATM_API.Core.Entities;
 
-namespace ATM_API.Core.Interfaces
+namespace ATM_API.Application.Interfaces
 {
     public interface IUserRepository
     {
