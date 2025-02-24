@@ -10,7 +10,7 @@ services:
       - "5678:5678"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=localhost;Port=5432;Database=ATM_DB;Username=postgres;Password=postgres
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=atm_db;Username=postgres;Password=postgres
     depends_on:
       - database
 

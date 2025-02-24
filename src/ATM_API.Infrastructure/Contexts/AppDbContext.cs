@@ -36,10 +36,16 @@ namespace ATM_API.Infrastructure.Contexts
                 .HasForeignKey(c => c.AccountId);
 
             // Configuración de la relación entre Transaction y Account
-            modelBuilder.Entity<Transaction>()
+            //modelBuilder.Entity<Transaction>()
+            //    .HasOne(t => t.Account)
+            //    .WithMany()
+            //    .HasForeignKey(t => t.AccountId);
+
+                    modelBuilder.Entity<Transaction>()
                 .HasOne(t => t.Account)
-                .WithMany()
-                .HasForeignKey(t => t.AccountId);
+                .WithMany(a => a.Transactions)
+                .HasForeignKey(t => t.AccountId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Configuración para asegurar unicidad en CardNumber
             modelBuilder.Entity<Card>()
