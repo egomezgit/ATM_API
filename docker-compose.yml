@@ -7,9 +7,10 @@ services:
       dockerfile: ./Docker/Dockerfile
     ports:
       - "8080:80"
+      - "5678:5678"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=ATM_DB;Username=postgres;Password=your_password
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=atm_db;Username=postgres;Password=postgres
     depends_on:
       - database
 
@@ -17,7 +18,7 @@ services:
     image: postgres:15
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: your_password
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: ATM_DB
     ports:
       - "5432:5432"

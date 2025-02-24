@@ -16,4 +16,5 @@ RUN dotnet publish ./src/ATM_API.Web/ATM_API.Web.csproj -c Release -o /app/publi
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/publish .
+EXPOSE 80 5678
 ENTRYPOINT ["dotnet", "ATM_API.Web.dll"]
