@@ -19,9 +19,9 @@ namespace ATM_API.Core.Entities
         public string Name { get; set; }
 
         /// <summary>
-        /// Account associated with the user
+        /// Accounts associated with the user
         /// </summary>
-        public Account Account { get; set; }
-       
+        public ICollection<Account> Accounts { get; set; } = new List<Account>();
+
     }
 }

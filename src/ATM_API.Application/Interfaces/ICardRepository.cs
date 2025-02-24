@@ -1,6 +1,6 @@
 ﻿using ATM_API.Core.Entities;
 
-namespace ATM_API.Application.Interfaces.Auth
+namespace ATM_API.Application.Interfaces
 {
     public interface ICardRepository
     {

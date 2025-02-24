@@ -1,55 +1,64 @@
 ﻿using ATM_API.Application.DTOs.Transaction;
 using ATM_API.Application.Interfaces;
 using ATM_API.Application.Interfaces.Auth;
-using ATM_API.Application.Interfaces.Transaction;
+using ATM_API.Application.Interfaces.Operation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ATM_API.Web.Controllers
 {
-    // Controllers/TransactionController.cs
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class TransactionController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IUserService _userService;
         private readonly ITransactionService _transactionService;
-        private readonly ITransactionRepository _transactionRepository;
+        private readonly ITransactionHistoryService _transactionHistoryService;
+        private readonly IBalanceService _balanceService;
 
-        public TransactionController(IUserService userService , ITransactionService transactionRepository)
+        public TransactionController(ITransactionService transactionService,
+            ITransactionHistoryService transactionHistoryService, 
+            IBalanceService balanceService)
         {
-            _transactionService = transactionRepository;
-            _userService = userService;
+            _transactionService = transactionService;
+            _transactionHistoryService = transactionHistoryService;
+            _balanceService = balanceService;
         }
 
         [HttpPost("withdraw")]
-        public async Task<IActionResult> Withdraw([FromBody] WithdrawRequestDto request)
+        public async Task<IActionResult> Withdraw([FromBody] TransactionRequestDto transactionDto)
         {
-            var user = await _userService.GetUserByCardNumberAsync(request.CardNumber);
-            if (user == null || user.Card.IsBlocked)
-                return Unauthorized("Card blocked or does not exist.");
-
-            if (user.Account.Balance < request.Amount)
-                return BadRequest("Insufficient funds.");
-
-            user.Account.Balance -= request.Amount;
-            user.Account.LastWithdrawalDate = DateTime.UtcNow;
-
-            var transaction = new TransactionDto
-            {
-                CardNumber = request.CardNumber,
-                Amount = request.Amount,
-                TransactionDate = DateTime.UtcNow,
-                TransactionType = "Withdrawal"
-            };
-
-            var response = await _transactionService.AddTransactionAsync(transaction);
-
-            if (response == null)
-                return Unauthorized(new { message = "Error registering the transaction." });
+            var response = await _transactionService.HandleAsync(transactionDto);
+            if (!response.Success)
+                return BadRequest(response);
 
             return Ok(response);
-           
         }
+
+        [HttpPost("history")]
+        public async Task<IActionResult> GetTransactionHistory([FromBody] TransactionHistoryRequestDto request)
+        {
+            var response = await _transactionHistoryService.HandleAsync(request);
+
+            if (response == null)
+                return NotFound(new { message = "Card not found or blocked." });
+
+            return Ok(response);
+        }
+
+        [HttpPost("balance")]
+        public async Task<IActionResult> GetBalance([FromBody] string cardNumber)
+        {
+            var response = await _balanceService.HandleBalanceAsync(cardNumber);
+            if (response == null)
+                return NotFound(new { message = "Card not found or blocked." });
+
+            return Ok(response);
+        }
+
+
+
+
+
     }
 }

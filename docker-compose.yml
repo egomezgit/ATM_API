@@ -3,23 +3,26 @@ version: '3.8'
 services:
   api:
     build:
-      context: .
-      dockerfile: ATM_API/Dockerfile
+      context: ..
+      dockerfile: ./Docker/Dockerfile
     ports:
-      - "5000:80"
+      - "8080:80"
     environment:
-      - ConnectionStrings__DefaultConnection=Host=db;Database=atm_db;Username=postgres;Password=postgres
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=database;Port=5432;Database=ATM_DB;Username=postgres;Password=your_password
     depends_on:
-      - db
+      - database
 
-  db:
-    image: postgres:14
+  database:
+    image: postgres:15
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: atm_db
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: ATM_DB
+    ports:
+      - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - dbdata:/var/lib/postgresql/data
 
 volumes:
-  postgres_data:
+  dbdata:
