@@ -70,13 +70,17 @@ namespace ATM_API.Infrastructure.Seeds
                 await context.SaveChangesAsync();
 
                 // Crear transacciones asociadas a las cuentas
-                var transaction1 = new Transaction { AccountId = account1.Id, Amount = -200, Date = DateTime.UtcNow.AddDays(-1) };
-                var transaction2 = new Transaction { AccountId = account1.Id, Amount = 300, Date = DateTime.UtcNow.AddDays(-2) };
-                var transaction3 = new Transaction { AccountId = account2.Id, Amount = -100, Date = DateTime.UtcNow.AddDays(-3) };
-                var transaction4 = new Transaction { AccountId = account3.Id, Amount = 500, Date = DateTime.UtcNow.AddDays(-4) };
-                var transaction5 = new Transaction { AccountId = account4.Id, Amount = -50, Date = DateTime.UtcNow.AddDays(-5) };
+                var transactions = new List<Transaction>();
 
-                context.Transactions.AddRange(transaction1, transaction2, transaction3, transaction4, transaction5);
+                for (int i = 1; i <= 20; i++)
+                {
+                    transactions.Add(new Transaction { AccountId = account1.Id, Amount = i % 2 == 0 ? i * 10 : i * -10, Date = DateTime.UtcNow.AddDays(-i) });
+                    transactions.Add(new Transaction { AccountId = account2.Id, Amount = i % 2 == 0 ? i * 5 : i * -5, Date = DateTime.UtcNow.AddDays(-i) });
+                    transactions.Add(new Transaction { AccountId = account3.Id, Amount = i % 2 == 0 ? i * 15 : i * -15, Date = DateTime.UtcNow.AddDays(-i) });
+                    transactions.Add(new Transaction { AccountId = account4.Id, Amount = i % 2 == 0 ? i * 20 : i * -20, Date = DateTime.UtcNow.AddDays(-i) });
+                }
+
+                context.Transactions.AddRange(transactions);
                 await context.SaveChangesAsync();
             }
         }

@@ -1,4 +1,5 @@
-﻿using ATM_API.Application.DTOs.Transaction;
+﻿using ATM_API.Application.DTOs;
+using ATM_API.Application.DTOs.Transaction;
 using ATM_API.Application.Interfaces;
 using ATM_API.Application.Interfaces.Auth;
 using ATM_API.Application.Interfaces.Operation;
@@ -47,9 +48,9 @@ namespace ATM_API.Web.Controllers
         }
 
         [HttpPost("balance")]
-        public async Task<IActionResult> GetBalance([FromBody] string cardNumber)
+        public async Task<IActionResult> GetBalance([FromBody] BalanceRequestDto request)
         {
-            var response = await _balanceService.HandleBalanceAsync(cardNumber);
+            var response = await _balanceService.HandleBalanceAsync(request.CardNumber);
             if (response == null)
                 return NotFound(new { message = "Card not found or blocked." });
 

@@ -29,6 +29,18 @@ namespace ATM_API.Infrastructure.Repositories
         public async Task UpdateAsync(Account account)
         {
             _context.Accounts.Update(account);
+
+            var transaction = new Transaction
+            {
+                Amount = account.Balance,
+                Date = DateTime.UtcNow,
+                //Type = TransactionType.Withdrawal,
+                AccountId = account.Id
+                
+            };
+
+            _context.Transactions.Add(transaction);
+
             await _context.SaveChangesAsync();
         }
     }
