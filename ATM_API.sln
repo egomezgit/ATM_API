@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATM_API.Tests", "src\ATM_AP
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{4A982EDE-44CC-4F1C-B06D-937503303954}"
 	ProjectSection(SolutionItems) = preProject
+		DER.pdf = DER.pdf
+		DER.png = DER.png
 		README.md = README.md
 	EndProjectSection
 EndProject
