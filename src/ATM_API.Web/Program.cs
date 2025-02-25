@@ -60,12 +60,24 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<AppDbContext>();
-    var hashingService = services.GetRequiredService<IHashingService>();
+   
 
-    await context.Database.MigrateAsync();
-    await DefaultData.SeedAsync(context, hashingService);
+    try
+    {
+        var services = scope.ServiceProvider;
+        var context = services.GetRequiredService<AppDbContext>();
+        var hashingService = services.GetRequiredService<IHashingService>();
+
+        await context.Database.MigrateAsync();
+        await DefaultData.SeedAsync(context, hashingService);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Database migration failed: {ex.Message}");
+    }
+
+
+
 }
 
 

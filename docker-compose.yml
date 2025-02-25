@@ -1,21 +1,21 @@
-version: '3.8'
-
 services:
-  api:
+  atm_api.web:
+    image: ${DOCKER_REGISTRY-}atmapiweb
     build:
-      context: ..
-      dockerfile: ./Docker/Dockerfile
+      context: .
+      dockerfile: src/ATM_API.Web/Dockerfile
     ports:
-      - "8080:80"
-      - "5678:5678"
+      - "5000:5000"
+      - "5001:5001"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=localhost;Port=5432;Database=ATM_DB;Username=postgres;Password=postgres
+      - ConnectionStrings__DefaultConnection=Host=atm.database;Port=5432;Database=ATM_DB;Username=postgres;Password=postgres
     depends_on:
-      - database
+      - atm.database
 
-  database:
+  atm.database:
     image: postgres:15
+    container_name:  atm.database
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
