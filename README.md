@@ -188,9 +188,6 @@ La autenticación JWT está configurada en el archivo `Program.cs`. Asegúrate de a
 
 Las migraciones de la base de datos se ejecutan automáticamente al iniciar la aplicación si hay cambios pendientes. Asegúrate de revisar el archivo `Program.cs` para más detalles.
 
-### Diagrama de Entidad-Relacion 
-
-
 ### Diagrama de Entidad-Relación
 
 ![Diagrama de Entidad-Relación](./DER.png)
